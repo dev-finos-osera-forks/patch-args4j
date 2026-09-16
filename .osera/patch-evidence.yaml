@@ -1,14 +1,15 @@
 schema: osera-patch-evidence/0.1.0
 producer: controlplane-dev
-release: 2.33.1-osera-00001
+release: 2.33.2-osera-00002
 baseline: v2.33+patch.baseline
 fixes:
   - cve: CVE-2026-90011
     upstream: https://github.com/kohsuke/args4j/releases/tag/args4j-site-2.33
     note: DEV ONLY, an invented CVE with no upstream fix; the link is the upstream release the patch is built on
 tests:
-  commit: 92c8a6454ff0df20416c4fb52ca018a0c470fcf2
-  command: mvn -B -pl args4j -am test
-  runtime: OpenJDK 21.0.12.1, Apache Maven 3.9.16
-  report: args4j-2.33.1-osera-00001-tests.zip
+  commit: ed30a2ce65a2f56953a13823931fe83cb1488c12
+  command: JAVA_HOME=<Temurin 8> mvn -B clean -pl args4j -am test
+  runtime: OpenJDK 1.8.0_504 (Temurin), Apache Maven 3.9.16
+  report: args4j-2.33.2-osera-00002-tests.zip
   result: pass
+  note: 162 tests run, 0 failed, 0 skipped. Release 00001 was refused by the gate on REL-002, its class files were Java 8 (52) against the upstream's Java 5 (49); this build uses the JDK of the upstream's era and the upstream's compiler settings, class files 49 like the upstream
