@@ -1,0 +1,14 @@
+schema: osera-patch-evidence/0.1.0
+producer: controlplane-dev
+release: 2.33.1-osera-00001
+baseline: v2.33+patch.baseline
+fixes:
+  - cve: CVE-2026-90011
+    upstream: https://github.com/kohsuke/args4j/releases/tag/args4j-site-2.33
+    note: DEV ONLY, an invented CVE with no upstream fix; the link is the upstream release the patch is built on
+tests:
+  commit: 92c8a6454ff0df20416c4fb52ca018a0c470fcf2
+  command: mvn -B -pl args4j -am test
+  runtime: OpenJDK 21.0.12.1, Apache Maven 3.9.16
+  report: args4j-2.33.1-osera-00001-tests.zip
+  result: pass
