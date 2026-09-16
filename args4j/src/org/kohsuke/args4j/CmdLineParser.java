@@ -66,6 +66,11 @@ public class CmdLineParser {
      * @throws IllegalAnnotationError
      *      if the option bean class is using args4j annotations incorrectly.
      */
+    /**
+     * The longest single argument the parser accepts, in characters (OSERA patch for CVE-2026-90011).
+     */
+    public static final int MAX_ARGUMENT_LENGTH = 65536;
+
     public CmdLineParser(Object bean) {
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
         this(bean, ParserProperties.defaults());
@@ -473,6 +478,14 @@ public class CmdLineParser {
     public void parseArgument(final String... args) throws CmdLineException {
         
         checkNonNull(args, "args");
+
+        // OSERA patch for CVE-2026-90011 (DEV ONLY, an invented flaw): an argument longer than
+        // MAX_ARGUMENT_LENGTH characters is refused before it reaches the option handlers.
+        for (String arg : args) {
+            if (arg != null && arg.length() > MAX_ARGUMENT_LENGTH) {
+                throw new CmdLineException(this, "an argument is longer than " + MAX_ARGUMENT_LENGTH + " characters");
+            }
+        }
         
         String expandedArgs[] = args;
         if (parserProperties.getAtSyntax()) {
